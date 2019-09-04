@@ -7,13 +7,24 @@ character_information = {}
 character_info=()
 f=open('character_info','r')
 class_Info=f.readlines()
-cash=10
-def store():
+cash=100
+def store(cash):
     n_2=0
     lines_from_quote=[]
     items_in_shop=[]
+    costs_item=[]
     f_2=open('Shop.Items','r+')
     f_3=open('random quotes for shop keeper','r+')
+    f_4=open('COST_OF_ITEM','r+')
+
+
+    cost=f_4.readlines()
+    for c in cost:
+        striped_c = c.strip('\n')
+        costs_item.append(striped_c)
+    print(costs_item)
+
+
     quote=f_3.readlines()
     for lines in quote:
         striped_lines=lines.strip('\n')
@@ -32,15 +43,22 @@ def store():
     print('Welcome to my shop hope you find anything interesting')
     print('Here are some of the items that I sell in my shop-->{}'.format(items_in_shop))
     while True:
-        print(emoji.emojize('you have->{} :pound: left', use_aliases=True).format(cash))
+        print(emoji.emojize('you have->{} :pound: left', use_aliases=True))
         item_to_buy=input('please enter b when you what to buy an item:{}\nIf you want to leave the shop type E--> '.format(items_in_shop[n_2]))
+        print("******************************************************************")
         n_2+=1
         if item_to_buy.upper()=="B":
-            print('You have selected to buy->{}'.format(items_in_shop[n_2]))
+            print('You have selected to buy->{}\nThis item costs->{}'.format(items_in_shop[n_2],costs_item[n_2]))
+            confirm=input('Do want to buy {} type y to buy the item or type n to not buy the item->'.format(items_in_shop[n_2]))
+
 
         if cash==0:
             print('sorry you have no more money left')
             break
+
+        if confirm.upper() == 'Y':
+            print('Item has been bought')
+            cash = cash - int(costs_item[n_2])
 
         if item_to_buy.upper()=='E':
             print(random.choice(lines_from_quote))
@@ -231,4 +249,4 @@ def character_making():
 
 
 #intro()
-store()
+store(cash)
